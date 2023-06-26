@@ -6,36 +6,34 @@ using System.Data.SqlClient;
 var sqlConnectionStrBuilder = new SqlConnectionStringBuilder()
 {
     DataSource = "(localdb)\\MSSQLLocalDB",
-    InitialCatalog= "MSSQLLocalDemo",
+    InitialCatalog= "OnlineShop",
     IntegratedSecurity = true,
     Pooling = false
 };
 
 Console.WriteLine($"Connection string: {sqlConnectionStrBuilder.ConnectionString}");
-SqlConnection connection = new SqlConnection(sqlConnectionStrBuilder.ConnectionString);
 
-StateChangeEventHandler stateChangeEventHandler = AtConnectionStateChang;
-connection.StateChange += stateChangeEventHandler;
 try
 {
-    connection.Open();
+    using (SqlConnection connection = new SqlConnection(sqlConnectionStrBuilder.ConnectionString))
+    {
+        connection.Open();
+
+        string[] sqls =
+        {
+            //"INSERT INTO [client] (last_name, name, patronymic, phone_number, email) VALUES (N'Иванов', N'Роман', N'Ивановоич', N'89786785544', N'Ivan_rom_h@bk.ru');",
+            //"INSERT INTO [client] (last_name, name, patronymic, phone_number, email) VALUES (N'Соколов', N'Иван', N'Васильевич', N'89136782311', N'FgHTom@bk.ru');"
+        };
+
+        SqlCommand sqlCommand;
+        for (int i = 0; i < sqls.Length; i++)
+        {
+            sqlCommand = new SqlCommand(sqls[i], connection);
+            sqlCommand.ExecuteNonQuery();
+        }
+    }
 }
 catch (Exception e)
 {
     Console.WriteLine(e.Message);
-}
-finally
-{
-    connection.Close();
-}
-
-// using (SqlConnection connection = new SqlConnection(sqlConnectionStrBuilder.ConnectionString))
-// {
-//     connection.Open();
-// }
-
-
-void AtConnectionStateChang(object sender, StateChangeEventArgs e)
-{
-    Console.WriteLine($"Connection state: {(sender as SqlConnection).State}");
 }
