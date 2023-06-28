@@ -17,14 +17,40 @@
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
                   IsReadOnly="False"
-                  CurrentCellChanged="GridView_OnCurrentCellChanged"
-                  CellEditEnding="GridView_OnCellEditEnding">
+                  CurrentCellChanged="GridViewOnCurrentCellChanged"
+                  CellEditEnding="GridViewOnCellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="id"
-                                    Binding="id"
+                                    Binding="{Binding client_id}"
                                     Header = "Id"
                                     IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="lastName"
+                                    Binding="{Binding last_name}"
+                                    Header = "LastName"
+                                    IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="name"
+                                    Binding="{Binding name}"
+                                    Header = "Name"
+                                    IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="patronymic"
+                                    Binding="{Binding patronymic}"
+                                    Header = "Patronymic"
+                                    IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="phoneNumber"
+                                    Binding="{Binding phone_number}"
+                                    Header = "PhoneNumber"
+                                    IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn x:Name="email"
+                                    Binding="{Binding email}"
+                                    Header = "Email"
+                                    IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Click="MenuItemAddClick"></MenuItem>
+                    <MenuItem Header="Удалить" Click="MenuItemDeleteClick"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Window>
