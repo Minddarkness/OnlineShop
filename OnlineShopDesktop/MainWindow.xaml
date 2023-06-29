@@ -26,24 +26,19 @@
                                     IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="lastName"
                                     Binding="{Binding last_name}"
-                                    Header = "LastName"
-                                    IsReadOnly="True"></DataGridTextColumn>
+                                    Header = "LastName"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="name"
                                     Binding="{Binding name}"
-                                    Header = "Name"
-                                    IsReadOnly="True"></DataGridTextColumn>
+                                    Header = "Name"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="patronymic"
                                     Binding="{Binding patronymic}"
-                                    Header = "Patronymic"
-                                    IsReadOnly="True"></DataGridTextColumn>
+                                    Header = "Patronymic"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="phoneNumber"
                                     Binding="{Binding phone_number}"
-                                    Header = "PhoneNumber"
-                                    IsReadOnly="True"></DataGridTextColumn>
+                                    Header = "PhoneNumber"></DataGridTextColumn>
                 <DataGridTextColumn x:Name="email"
                                     Binding="{Binding email}"
-                                    Header = "Email"
-                                    IsReadOnly="True"></DataGridTextColumn>
+                                    Header = "Email"></DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

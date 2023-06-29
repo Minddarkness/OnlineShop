@@ -34,7 +34,7 @@ namespace OnlineShopDesktop
 
         private void SetUpdateCommand()
         {
-            string cliendId = "cliend_id";
+            string clientId = "client_id";
             string lastName = "last_name";
             string name = "name";
             string patronymic = "patronymic";
@@ -50,9 +50,10 @@ namespace OnlineShopDesktop
                                     patronymic = @patronymic, 
                                     phone_number = @phone_number, 
                                     email = @email
-                                WHERE cliend_id = @cliend_id";
+                                WHERE client_id = @client_id";
             _sqlDataAdapter.UpdateCommand = new SqlCommand(insert, _sqlconnection);
-            _sqlDataAdapter.UpdateCommand.Parameters.Add("@" + cliendId, SqlDbType.Int, 4, cliendId).Direction = ParameterDirection.Output;
+            _sqlDataAdapter.UpdateCommand.Parameters.Add("@" + clientId, SqlDbType.Int, 4, clientId).SourceVersion =
+                DataRowVersion.Original;
             _sqlDataAdapter.UpdateCommand.Parameters.Add("@" + lastName, SqlDbType.NVarChar, 50, lastName);
             _sqlDataAdapter.UpdateCommand.Parameters.Add("@" + name, SqlDbType.NVarChar, 50, name);
             _sqlDataAdapter.UpdateCommand.Parameters.Add("@" + patronymic, SqlDbType.NVarChar, 50, patronymic);
@@ -124,13 +125,19 @@ namespace OnlineShopDesktop
 
         private void MenuItemAddClick(object? sender, EventArgs e)
         {
-            MessageBox.Show("Добавить");
-            AddClientWindow addWindow = new AddClientWindow(_dataRowView);
+            DataRow dataRow = _dataTable.NewRow();
+            AddClientWindow addWindow = new AddClientWindow(dataRow);
             addWindow.ShowDialog();
+
+            if (addWindow.DialogResult == null)
+            {
+                MessageBox.Show("DialogResult = null");
+                return;
+            }
             
             if (addWindow.DialogResult.Value)
             {
-                _dataTable.Rows.Add(_dataRowView);
+                _dataTable.Rows.Add(dataRow);
                 _sqlDataAdapter.Update(_dataTable);
             }
         }
@@ -157,6 +164,12 @@ namespace OnlineShopDesktop
             }
         }
         
+        private void GridViewOnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
+        {
+            _dataRowView = (DataRowView)gridView.SelectedItem;
+            _dataRowView.BeginEdit();
+        }
+        
         private void GridViewOnCurrentCellChanged(object? sender, EventArgs e)
         {
             if (_dataRowView == null)
@@ -166,13 +179,6 @@ namespace OnlineShopDesktop
             
             _dataRowView.EndEdit();
             _sqlDataAdapter.Update(_dataTable);
-        }
-
-        private void GridViewOnCellEditEnding(object? sender, DataGridCellEditEndingEventArgs e)
-        {
-            _dataRowView = (DataRowView)gridView.SelectedItem;
-            _dataRowView.BeginEdit();
-            //_sqlDataAdapter.Update(_dataTable);
         }
     }
 }
