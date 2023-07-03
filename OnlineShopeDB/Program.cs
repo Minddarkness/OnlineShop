@@ -6,9 +6,11 @@ using System.Data.SqlClient;
 var sqlConnectionStrBuilder = new SqlConnectionStringBuilder()
 {
     DataSource = "(localdb)\\MSSQLLocalDB",
-    InitialCatalog= "OnlineShop",
+    InitialCatalog = "OnlineShop",
     IntegratedSecurity = true,
-    Pooling = false
+    Pooling = false,
+    UserID = "anastasiya",
+    Password = "fgh5hh34klertfg"
 };
 
 Console.WriteLine($"Connection string: {sqlConnectionStrBuilder.ConnectionString}");

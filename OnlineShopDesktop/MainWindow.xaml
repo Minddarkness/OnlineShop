@@ -8,17 +8,17 @@
         Title="Онлайн магазин" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70*"></ColumnDefinition>
-            <ColumnDefinition Width="30*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="gridView"
+        <DataGrid x:Name="clientGridView"
                   IsSynchronizedWithCurrentItem="True"
                   SelectionMode = "Single"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
                   IsReadOnly="False"
-                  CurrentCellChanged="GridViewOnCurrentCellChanged"
-                  CellEditEnding="GridViewOnCellEditEnding">
+                  CurrentCellChanged="ClientGridViewOnCurrentCellChanged"
+                  CellEditEnding="ClientGridViewOnCellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="id"
                                     Binding="{Binding client_id}"
@@ -42,8 +42,8 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Добавить" Click="MenuItemAddClick"></MenuItem>
-                    <MenuItem Header="Удалить" Click="MenuItemDeleteClick"></MenuItem>
+                    <MenuItem Header="Добавить" Click="ClientMenuItemAddClick"></MenuItem>
+                    <MenuItem Header="Удалить" Click="ClientMenuItemDeleteClick"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
