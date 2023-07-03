@@ -7,9 +7,9 @@ namespace OnlineShopDesktop;
 public class ClientTable
 {
     private SqlConnection _sqlconnection;
-    private SqlDataAdapter _sqlDataAdapter; // для связывания визуальной части с бд
-    private DataTable _dataTable; // связать полученные данные с внешним ui
-    private DataRowView _dataRowView; // для отслеживания изменния в ячейках
+    private SqlDataAdapter _sqlDataAdapter;
+    private DataTable _dataTable;
+    private DataRowView _dataRowView;
     private SqlConnectionStringBuilder _connectionStringBuilder;
     
     public ClientTable(Action<DataView> setDataCallback)
@@ -34,6 +34,34 @@ public class ClientTable
     public DataRow GetNewRow()
     {
         return _dataTable.NewRow();
+    }
+    
+    public void Delete(DataRowView dataRowView)
+    {
+        if (dataRowView == null)
+        {
+            throw new NullReferenceException("Выделите строку для удаления");
+        }
+            
+        dataRowView.Row.Delete();
+        _sqlDataAdapter.Update(_dataTable);
+    }
+
+    public void BeginEdit(DataRowView dataRowView)
+    {
+        _dataRowView = dataRowView;
+        _dataRowView.BeginEdit();
+    }
+    
+    public void EndEdit()
+    {
+        if (_dataRowView == null)
+        {
+            return;
+        }
+            
+        _dataRowView.EndEdit();
+        _sqlDataAdapter.Update(_dataTable);
     }
 
     private string GetConnectionString()
@@ -128,33 +156,5 @@ public class ClientTable
     {
         var select = @"SELECT * FROM client ORDER BY client_id;";
         _sqlDataAdapter.SelectCommand = new SqlCommand(select, _sqlconnection);
-    }
-
-    public void Delete(DataRowView dataRowView)
-    {
-        if (dataRowView == null)
-        {
-            throw new NullReferenceException("Выделите строку для удаления");
-        }
-            
-        dataRowView.Row.Delete();
-        _sqlDataAdapter.Update(_dataTable);
-    }
-
-    public void BeginEdit(DataRowView dataRowView)
-    {
-        _dataRowView = dataRowView;
-        _dataRowView.BeginEdit();
-    }
-    
-    public void EndEdit()
-    {
-        if (_dataRowView == null)
-        {
-            return;
-        }
-            
-        _dataRowView.EndEdit();
-        _sqlDataAdapter.Update(_dataTable);
     }
 }
